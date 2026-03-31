@@ -1,8 +1,4 @@
 streamlit
 matplotlib
 numpy
-<<<<<<< HEAD
 pandas
-=======
-pandas
->>>>>>> 863395389162e6e8fddd690ca2fa39bd16f42236
