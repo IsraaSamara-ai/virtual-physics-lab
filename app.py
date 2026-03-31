@@ -220,7 +220,7 @@ st.markdown("""
 .stApp {
     background: radial-gradient(circle at center, #0f172a, #020617);
     color: white;
-}
+)
 h1, h2 {
     color: #38bdf8;
     text-align: center;
