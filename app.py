@@ -1,22 +1,18 @@
-
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 
-# إعداد الصفحة
 st.set_page_config(page_title="معمل الفيزياء الافتراضي", layout="wide")
 st.title("🔌 معمل الفيزياء الافتراضي - دوائر التيار المتردد والترانزستور")
 st.markdown("### إعداد: إسراء سمارة")
 
-# الشريط الجانبي للتحكم
 st.sidebar.header("⚙️ إعدادات الدائرة")
 circuit_type = st.sidebar.selectbox(
     "نوع الدائرة",
     ["دائرة RC (مقاومة - مكثف)", "دائرة RL (مقاومة - ملف)", "دائرة RLC (رنان)", "ترانزستور BJT"]
 )
 
-# متغيرات مشتركة
 R = st.sidebar.slider("المقاومة R (Ω)", 100, 10000, 1000, step=100)
 C = st.sidebar.slider("السعة C (µF)", 0.1, 100.0, 10.0) * 1e-6
 L = st.sidebar.slider("المحاثة L (mH)", 1, 100, 10) * 1e-3
@@ -24,11 +20,9 @@ L = st.sidebar.slider("المحاثة L (mH)", 1, 100, 10) * 1e-3
 f = np.linspace(10, 1000, 500)
 w = 2 * np.pi * f
 
-# الدوائر
 if circuit_type.startswith("دائرة RC"):
     st.header("📈 دائرة RC - استجابة التردد")
     Xc = 1 / (w * C)
-    Z = np.sqrt(R**2 + Xc**2)
     phase = -np.arctan(Xc / R)
     gain = 1 / np.sqrt(1 + (w * R * C)**2)
 
@@ -51,7 +45,6 @@ if circuit_type.startswith("دائرة RC"):
 elif circuit_type.startswith("دائرة RL"):
     st.header("📈 دائرة RL - استجابة التردد")
     XL = w * L
-    Z = np.sqrt(R**2 + XL**2)
     phase = np.arctan(XL / R)
     gain = 1 / np.sqrt(1 + (w * L / R)**2)
 
@@ -100,10 +93,10 @@ elif circuit_type.startswith("دائرة RLC"):
     fo = 1 / (2 * np.pi * np.sqrt(L * C))
     st.info(f"**تردد الرنين النظري:** {fo:.1f} Hz")
 
-else:  # ترانزستور
+else:
     st.header("🔬 خصائص الترانزستور ثنائي القطب (BJT) - النوع NPN")
     Vce = np.linspace(0, 10, 100)
-    IB_values = [10, 20, 50, 100, 150]  # µA
+    IB_values = [10, 20, 50, 100, 150]
     beta = 100
 
     fig, ax = plt.subplots(figsize=(8, 6))
@@ -124,9 +117,9 @@ else:  # ترانزستور
     **ملاحظات تعليمية:**  
     - **منطقة القطع:** IC = 0 (عند VCE صغير جداً و IB = 0).  
     - **المنطقة الفعالة (Active):** IC = β × IB، منحنى مستقر.  
-    - **منطقة الإشباع (Saturation):** IC لا يزيد رغم زيادة IB (يستخدم في التبديل)
+    - **منطقة الإشباع (Saturation):** IC لا يزيد رغم زيادة IB (يستخدم في التبديل).
+    """)
 
-# رسم الدائرة
 st.header("⚡ مخطط الدائرة الكهربائية")
 def draw_circuit(ax, circuit_type):
     ax.clear()
@@ -184,7 +177,7 @@ def draw_circuit(ax, circuit_type):
         ax.plot([6.25, 6.75], [3, 2.5], 'k-')
         ax.plot([6.25, 6.75], [3, 3.5], 'k-')
 
-    else:  # ترانزستور
+    else:
         ax.add_patch(Rectangle((0.5, 2.5), 0.8, 1, fill=None, edgecolor='black'))
         ax.text(0.9, 3, "Vcc", fontsize=10)
         ax.plot([1.5, 3], [3, 3], 'k-')
@@ -207,70 +200,4 @@ st.pyplot(fig_circ)
 
 st.markdown("---")
 st.markdown("**📘 ملاحظة:** استخدم القوائم الجانبية لتغيير قيم المكونات وشاهد تأثيرها على المخططات والرسوم البيانية.")
-import streamlit as st
-import numpy as np
-import matplotlib.pyplot as plt
-
-# إعداد الصفحة
-st.set_page_config(page_title="AC Lab - Israa Samara", layout="wide")
-
-# ثيم داكن
-st.markdown("""
-<style>
-.stApp {
-    background: radial-gradient(circle at center, #0f172a, #020617);
-    color: white;
-)
-h1, h2 {
-    color: #38bdf8;
-    text-align: center;
-}
-</style>
-""", unsafe_allow_html=True)
-
-# عنوان
-st.title("⚡ AC Circuit Interactive Lab")
-st.write("By Israa Samara")
-
-# تحكم من اليسار
-st.sidebar.header("🎮 التحكم")
-
-f = st.sidebar.slider("Frequency", 1, 200, 50)
-R = st.sidebar.slider("Resistance", 1, 100, 10)
-L = st.sidebar.slider("Inductance", 0.001, 0.1, 0.05)
-C = st.sidebar.slider("Capacitance", 0.00001, 0.001, 0.0001)
-
-# حسابات
-t = np.linspace(0, 0.1, 1000)
-omega = 2 * np.pi * f
-
-XL = omega * L
-XC = 1 / (omega * C)
-Z = np.sqrt(R**2 + (XL - XC)**2)
-
-V = 10 * np.sin(omega * t)
-phi = np.arctan((XL - XC) / R)
-I = (10 / Z) * np.sin(omega * t - phi)
-
-# رسم
-fig, ax = plt.subplots()
-
-ax.plot(t, V, label="Voltage")
-ax.plot(t, I, linestyle="dashed", label="Current")
-
-ax.legend()
-ax.set_title("Voltage vs Current")
-
-st.pyplot(fig)
-
-# شرح
-st.subheader("🧠 التحليل")
-
-if XL > XC:
-    st.success("⚡ الدارة حثية — التيار متأخر")
-elif XC > XL:
-    st.warning("⚡ الدارة سعوية — التيار متقدم")
-else:
-    st.info("🔥 رنين")
-
-st.write(f"زاوية الطور: {np.degrees(phi):.2f}°")
+تحديث app.py
