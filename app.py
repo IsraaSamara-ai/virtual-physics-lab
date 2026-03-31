@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
@@ -276,4 +276,3 @@ else:
     st.info("🔥 رنين")
 
 st.write(f"زاوية الطور: {np.degrees(phi):.2f}°")
->>>>>>> 863395389162e6e8fddd690ca2fa39bd16f42236
