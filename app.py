@@ -198,7 +198,7 @@ draw_circuit(ax_circ, circuit_type)
 st.pyplot(fig_circ)
 
 st.markdown("---")
-st.markdown("**📘 ملاحظة:** استخدم القوائم الجانبية لتغيير قيم المكونات وشاهد تأثيرها على المخططات والرسوم البيانية.")import streamlit as st
+st.markdown("**📘 ملاحظة:** استخدم القوائم الجانبية لتغيير قيم المكونات وشاهد تأثيرها على المخططات والرسوم البيانية.")
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
