@@ -33,8 +33,8 @@ I = (10 / Z) * np.sin(omega * t - np.arctan((XL - XC) / R))
 
 # Create figure
 fig, ax = plt.subplots(figsize=(8, 4))
-ax.plot(t, V, label="Voltage (V)", linewidth=2, color='blue')
-ax.plot(t, I, label="Current (A)", linewidth=2, color='orange')
+ax.plot(t, V, label="Voltage (V)", linewidth=2)
+ax.plot(t, I, label="Current (A)", linewidth=2)
 ax.set_xlabel("Time (s)")
 ax.set_ylabel("Amplitude")
 ax.legend()
